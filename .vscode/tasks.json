@@ -1,0 +1,28 @@
+{
+    "tasks": [
+        {
+            "type": "shell",
+            "label": "C/C++: 构建活动文件并复制 Kinesis 运行库",
+            "command": "powershell",
+            "args": [
+                "-NoProfile",
+                "-ExecutionPolicy",
+                "Bypass",
+                "-Command",
+                "& 'C:\\mingw64\\bin\\g++.exe' -fdiagnostics-color=always -g -std=gnu++17 '-IC:/Program Files/Thorlabs/Kinesis' '${file}' '-LC:/Program Files/Thorlabs/Kinesis' '-l:Thorlabs.MotionControl.KCube.Piezo.lib' '-lws2_32' -o '${fileDirname}\\${fileBasenameNoExtension}.exe'; if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }; Copy-Item 'C:\\Program Files\\Thorlabs\\Kinesis\\Thorlabs.MotionControl.KCube.Piezo.dll' '${fileDirname}' -Force; Copy-Item 'C:\\Program Files\\Thorlabs\\Kinesis\\Thorlabs.MotionControl.DeviceManager.dll' '${fileDirname}' -Force"
+            ],
+            "options": {
+                "cwd": "${fileDirname}"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "detail": "编译后自动复制 Kinesis 运行库，保证 exe 可直接从项目目录启动。"
+        }
+    ],
+    "version": "2.0.0"
+}
